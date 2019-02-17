@@ -1,0 +1,10 @@
+
+.env
+!html/index.php
+html/*
+!logs/nginx/.gitkeep
+logs/nginx/*
+!mysql/.gitkeep
+mysql/*
+!ssl-conf/secret-keys/.gitkeep
+ssl-conf/secret-keys/*

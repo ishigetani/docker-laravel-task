@@ -1,0 +1,31 @@
+version: '3'
+services:
+  nginx:
+    image: 'nginx:alpine'
+    ports:
+      - 80:80
+      - 443:443
+    privileged: true
+    environment:
+      TZ: Asia/Tokyo
+    volumes:
+      - ./ssl-conf/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./ssl-conf/secret-keys/:/etc/nginx/ssl/
+      - ./logs/nginx/:/var/log/nginx/
+    links:
+      - php7
+      - mysql:mysql
+  php7:
+    build: './dockerfile/php-fpm-laravel/'
+    volumes:
+      - ./html/:/var/www/html
+      - ./php.ini:/usr/local/etc/php/conf.d/php.ini
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASS}
+    restart: always
