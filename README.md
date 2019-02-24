@@ -8,7 +8,7 @@
 
 * nginx
 * php-fpm:7.2
-* mysql:5.7
+* mariadb
 
 ## 参考
 
