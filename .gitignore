@@ -1,6 +1,5 @@
 .env
-html/*
-!html/index.php
+
 logs/nginx/*
 !logs/nginx/.gitkeep
 mysql/*
