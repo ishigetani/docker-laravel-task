@@ -21,11 +21,14 @@ services:
       - ./html/:/var/www/html
       - ./php.ini:/usr/local/etc/php/conf.d/php.ini
   mysql:
-    image: mysql:5.7
+    image: mariadb
+    ports:
+      - 3306:3306
     volumes:
       - ./mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASS}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     restart: always
