@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use App\Task;
-use Illuminate\Validation\Validator;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +16,11 @@ use Illuminate\Validation\Validator;
 
 Route::get('/', function () {
     // タスク一覧
-    return view('tasks');
+    $tasks = Task::orderBy('created_at', 'asc')->get();
+
+    return view('tasks', [
+        'tasks' => $tasks
+    ]);
 });
 
 Route::post('/task', function (Request $request) {
@@ -32,6 +35,16 @@ Route::post('/task', function (Request $request) {
             ->withInput()
             ->withErrors($validator);
     }
+
+    $task = new Task;
+    $task->name = $request->name;
+    $task->save();
+
+    return redirect('/');
 });
 
-Route::delete('/task/{task}', function (Task $task) { });
+Route::delete('/task/{task}', function (Task $task) {
+    $task->delete();
+
+    return redirect('/');
+});
