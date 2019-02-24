@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Task;
+use Illuminate\Validation\Validator;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,23 @@ use App\Task;
 |
 */
 
-Route::get('/', function () { });
+Route::get('/', function () {
+    // タスク一覧
+    return view('tasks');
+});
 
-Route::post('/task', function (Request $request) { });
+Route::post('/task', function (Request $request) {
+    // タスク追加
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|max:255'
+    ]);
+
+    if ($validator->fails()) {
+        // バリデーションエラー
+        return redirect('/')
+            ->withInput()
+            ->withErrors($validator);
+    }
+});
 
 Route::delete('/task/{task}', function (Task $task) { });
-
