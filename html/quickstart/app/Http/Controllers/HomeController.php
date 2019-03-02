@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $tasks = Task::orderBy('created_at', 'asc')->get();
+        $tasks = Task::orderBy('created_at', 'asc')->get()->where('user_id', Auth::user()->id);
 
         return view('tasks', compact('tasks'));
     }
@@ -41,6 +42,7 @@ class HomeController extends Controller
 
         $task = new Task;
         $task->name = $request->name;
+        $task->user_id = Auth::user()->id;
         $task->save();
 
         return redirect()->route('home');
