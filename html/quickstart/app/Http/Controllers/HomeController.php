@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Task;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -36,17 +35,9 @@ class HomeController extends Controller
      */
     public function add(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255'
+        $request->validate([
+            'name' => 'required|max:199'
         ]);
-
-        if ($validator->fails()) {
-            // バリデーションエラー
-            return redirect()
-                ->route('home')
-                ->withInput()
-                ->withErrors($validator);
-        }
 
         $task = new Task;
         $task->name = $request->name;
